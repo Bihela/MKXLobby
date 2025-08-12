@@ -5,7 +5,6 @@ using System.ServiceModel;
 
 namespace Lobby.Contracts
 {
-    // Data contract for a Player
     [DataContract]
     public class Player
     {
