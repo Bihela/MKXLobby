@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lobby.Contracts\Lobby.Contracts.csproj">
+      <Project>{ec1b3e10-1eec-4878-86e2-c300a8c85cbb}</Project>
+      <Name>Lobby.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lobby.Server\Lobby.Server.csproj">
+      <Project>{57d012ff-d2f8-416d-befa-ef7bbd208c2f}</Project>
+      <Name>Lobby.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
