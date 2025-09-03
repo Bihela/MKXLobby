@@ -1,0 +1,51 @@
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\bin\Debug\Server.exe.config
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\bin\Debug\Server.exe
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\bin\Debug\Server.pdb
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\bin\Debug\DataBase.dll
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\bin\Debug\DataBase.pdb
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\obj\Debug\Server.exe
+C:\Users\Navida\Desktop\cmps\Y2S2\COMP3008 Distributed Computing\assignment 1\Game\Server\obj\Debug\Server.pdb
+C:\Users\tubev\Desktop\Game\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\tubev\Desktop\Game\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\tubev\Desktop\Game\Server\obj\Debug\Server.exe
+C:\Users\tubev\Desktop\Game\Server\obj\Debug\Server.pdb
+C:\Users\tubev\Desktop\Game\Server\bin\Debug\Server.exe.config
+C:\Users\tubev\Desktop\Game\Server\bin\Debug\Server.exe
+C:\Users\tubev\Desktop\Game\Server\bin\Debug\Server.pdb
+C:\Users\tubev\Desktop\Game\Server\bin\Debug\DataBase.dll
+C:\Users\tubev\Desktop\Game\Server\bin\Debug\DataBase.pdb
+C:\Users\tubev\Desktop\Game\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\Navida\Desktop\Game 2\Game\Server\bin\Debug\Server.exe.config
+C:\Users\Navida\Desktop\Game 2\Game\Server\bin\Debug\Server.exe
+C:\Users\Navida\Desktop\Game 2\Game\Server\bin\Debug\Server.pdb
+C:\Users\Navida\Desktop\Game 2\Game\Server\bin\Debug\DataBase.dll
+C:\Users\Navida\Desktop\Game 2\Game\Server\bin\Debug\DataBase.pdb
+C:\Users\Navida\Desktop\Game 2\Game\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\Navida\Desktop\Game 2\Game\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Navida\Desktop\Game 2\Game\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\Navida\Desktop\Game 2\Game\Server\obj\Debug\Server.exe
+C:\Users\Navida\Desktop\Game 2\Game\Server\obj\Debug\Server.pdb
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\bin\Debug\Server.exe.config
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\bin\Debug\Server.exe
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\bin\Debug\Server.pdb
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\bin\Debug\DataBase.dll
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\bin\Debug\DataBase.pdb
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\obj\Debug\Server.exe
+C:\Users\Navida\Desktop\Game 2\DistributedAssignment_21557859\Server\obj\Debug\Server.pdb
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\bin\Debug\Server.exe.config
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\bin\Debug\Server.exe
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\bin\Debug\Server.pdb
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\bin\Debug\DataBase.dll
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\bin\Debug\DataBase.pdb
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.exe.config
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.exe
+C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.pdb
