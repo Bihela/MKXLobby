@@ -22,3 +22,9 @@ C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\DataBase
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\DataBase\obj\Debug\DataBase.csproj.CoreCompileInputs.cache
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\DataBase\obj\Debug\DataBase.dll
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\DataBase\obj\Debug\DataBase.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\bin\Debug\DataBase.dll
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\bin\Debug\DataBase.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\obj\Debug\DataBase.csproj.AssemblyReference.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\obj\Debug\DataBase.csproj.CoreCompileInputs.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\obj\Debug\DataBase.dll
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\DataBase\obj\Debug\DataBase.pdb

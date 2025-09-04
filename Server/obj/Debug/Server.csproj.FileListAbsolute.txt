@@ -49,3 +49,14 @@ C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\o
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.csproj.Up2Date
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.exe
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Server\obj\Debug\Server.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\bin\Debug\Server.exe.config
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\bin\Debug\Server.exe
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\bin\Debug\Server.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\bin\Debug\DataBase.dll
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\bin\Debug\DataBase.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.exe.config
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.csproj.Up2Date
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.exe
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Server\obj\Debug\Server.pdb
