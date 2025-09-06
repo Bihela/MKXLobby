@@ -4,17 +4,30 @@
 winexe
 C#
 .cs
+<<<<<<< HEAD
 C:\Users\Home\source\repos\Bihela\MKXLobby\Client\obj\Release\
+=======
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Release\
+>>>>>>> 0ef30e7f0f420c6b73d02e08c1450660bb764ec7
 Client
 none
 false
 TRACE
+<<<<<<< HEAD
 C:\Users\Home\source\repos\Bihela\MKXLobby\Client\App.xaml
 1219584333
 
 51579654133
 172061480319
 MainWindow.xaml;
+=======
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\App.xaml
+2903533506
+
+7-1365648264
+17-881467777
+PrivateChatWindow.xaml;MainWindow.xaml;
+>>>>>>> 0ef30e7f0f420c6b73d02e08c1450660bb764ec7
 
 True
 

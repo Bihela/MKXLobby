@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 using DataBase;
 using Server;
-using System.IO;
 
 namespace Client
 {
@@ -24,11 +17,19 @@ namespace Client
         private ILobbyService client;
         private string currentRoom;
         private ChannelFactory<ILobbyService> channelFactory;
+        private DispatcherTimer pollingTimer;
+        private Dictionary<string, PrivateChatWindow> privateChatWindows;
+        private Dictionary<string, int> lastMessageCount; 
+        private HashSet<string> recentlyClosedWindows; 
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeClient();
+            InitializePolling();
+            privateChatWindows = new Dictionary<string, PrivateChatWindow>();
+            lastMessageCount = new Dictionary<string, int>(); 
+            recentlyClosedWindows = new HashSet<string>();
             LoadAvailableRooms();
             RoomListBox.IsEnabled = false;
             JoinRoomButton.IsEnabled = false;
@@ -39,20 +40,18 @@ namespace Client
         {
             try
             {
-                // Configure NetTcpBinding to match server
                 var binding = new NetTcpBinding
                 {
-                    MaxReceivedMessageSize = 10485760, // 10 MB
-                    MaxBufferSize = 10485760,         // 10 MB
-                    MaxBufferPoolSize = 10485760,     // 10 MB
+                    MaxReceivedMessageSize = 10485760,
+                    MaxBufferSize = 10485760,
+                    MaxBufferPoolSize = 10485760,
                     ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas
                     {
-                        MaxArrayLength = 10485760,    // 10 MB for arrays
-                        MaxStringContentLength = 10485760 // 10 MB for strings
+                        MaxArrayLength = 10485760,
+                        MaxStringContentLength = 10485760
                     }
                 };
                 binding.Security.Mode = SecurityMode.None;
-
                 var endpoint = new EndpointAddress("net.tcp://localhost:8100/Service");
                 channelFactory = new ChannelFactory<ILobbyService>(binding, endpoint);
                 client = channelFactory.CreateChannel();
@@ -60,6 +59,30 @@ namespace Client
             catch (Exception ex)
             {
                 MessageBox.Show($"Error initializing client: {ex.Message}");
+            }
+        }
+
+        private void InitializePolling()
+        {
+            pollingTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5)
+            };
+            pollingTimer.Tick += PollingTimer_Tick;
+        }
+
+        private void PollingTimer_Tick(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(currentRoom))
+            {
+                LoadAvailableRooms();
+            }
+            else
+            {
+                LoadPlayersInRoom(currentRoom);
+                UpdateRoomMessages();
+                UpdateSharedFiles();
+                UpdatePrivateMessages();
             }
         }
 
@@ -142,6 +165,7 @@ namespace Client
                 CreateRoomBut.IsEnabled = true;
                 UsernameTextBox.IsEnabled = false;
                 LoginButn.IsEnabled = false;
+                pollingTimer.Start();
                 LoadAvailableRooms();
             }
             else
@@ -164,7 +188,8 @@ namespace Client
                 logOutbtn.IsEnabled = false;
                 CreateRoomBut.IsEnabled = false;
                 LoadPlayersInRoom(roomName);
-                RefreshFilesButton_Click(sender, e);
+                UpdateSharedFiles();
+                UpdateRoomMessages();
             }
             else
             {
@@ -187,7 +212,8 @@ namespace Client
                     logOutbtn.IsEnabled = false;
                     CreateRoomBut.IsEnabled = false;
                     LoadPlayersInRoom(selectedRoom.RoomName);
-                    RefreshFilesButton_Click(sender, e);
+                    UpdateSharedFiles();
+                    UpdateRoomMessages();
                 }
                 else
                 {
@@ -203,7 +229,10 @@ namespace Client
                 List<Player> playersInRoom = client.GetPlayersInRoom(roomName);
                 PlayerListBox.ItemsSource = playersInRoom;
                 PlayerListBox.DisplayMemberPath = "Username";
-                PrivateMessageRecipientComboBox.ItemsSource = playersInRoom.Select(p => p.Username).ToList();
+                PrivateMessageRecipientComboBox.ItemsSource = playersInRoom
+                    .Where(p => p.Username != UsernameTextBox.Text)
+                    .Select(p => p.Username)
+                    .ToList();
             }, "Error loading players");
         }
 
@@ -219,16 +248,22 @@ namespace Client
             if (success)
             {
                 MessageBox.Show("Logout successful");
+                pollingTimer.Stop();
+                foreach (var window in privateChatWindows.Values)
+                {
+                    window.Close();
+                }
+                privateChatWindows.Clear();
+                recentlyClosedWindows.Clear();
+                lastMessageCount.Clear(); 
                 UsernameTextBox.IsEnabled = true;
                 LoginButn.IsEnabled = true;
                 RoomListBox.IsEnabled = false;
                 JoinRoomButton.IsEnabled = false;
                 CreateRoomBut.IsEnabled = false;
                 currentRoom = null;
-                RoomMessagesListBox.ItemsSource = null;
+                ChatListBox.ItemsSource = null;
                 PlayerListBox.ItemsSource = null;
-                PrivateMessagesListBox.ItemsSource = null;
-                SharedFilesListBox.ItemsSource = null;
             }
             else
             {
@@ -245,15 +280,20 @@ namespace Client
                 if (success)
                 {
                     MessageBox.Show("Left the room");
+                    foreach (var window in privateChatWindows.Values)
+                    {
+                        window.Close();
+                    }
+                    privateChatWindows.Clear();
+                    recentlyClosedWindows.Clear();
+                    lastMessageCount.Clear(); 
                     currentRoom = null;
                     LoadAvailableRooms();
                     logOutbtn.IsEnabled = true;
                     JoinRoomButton.IsEnabled = true;
                     CreateRoomBut.IsEnabled = true;
-                    RoomMessagesListBox.ItemsSource = null;
+                    ChatListBox.ItemsSource = null;
                     PlayerListBox.ItemsSource = null;
-                    PrivateMessagesListBox.ItemsSource = null;
-                    SharedFilesListBox.ItemsSource = null;
                 }
                 else
                 {
@@ -276,30 +316,24 @@ namespace Client
                 {
                     client.BroadcastMessage(currentRoom, username, message);
                     RoomMessageTextBox.Clear();
-                    RefreshRoomMessagesButton_Click(sender, e);
+                    UpdateRoomMessages();
                 }, "Error sending room message");
             }
         }
 
-        private void RefreshRoomMessagesButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateRoomMessages()
         {
             if (!string.IsNullOrEmpty(currentRoom))
             {
                 ExecuteWithFaultHandling(() =>
                 {
-                    List<string> messages = client.GetMessages(currentRoom);
-                    RoomMessagesListBox.ItemsSource = messages;
-                    if (messages.Count > 0)
-                    {
-                        RoomMessagesListBox.ScrollIntoView(RoomMessagesListBox.Items[RoomMessagesListBox.Items.Count - 1]);
-                    }
+                    UpdateUnifiedChat();
                 }, "Error refreshing room messages");
             }
         }
 
         private void SendPrivateMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            var message = PrivateMessageTextBox.Text;
             var recipientUsername = PrivateMessageRecipientComboBox.SelectedItem?.ToString();
             var senderUsername = UsernameTextBox.Text;
             if (recipientUsername == senderUsername)
@@ -307,29 +341,90 @@ namespace Client
                 MessageBox.Show("You cannot send a private message to yourself.");
                 return;
             }
-            if (!string.IsNullOrEmpty(recipientUsername) && !string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(recipientUsername))
             {
-                ExecuteWithFaultHandling(() =>
+                if (!privateChatWindows.ContainsKey(recipientUsername))
                 {
-                    client.SendPrivateMessage(senderUsername, recipientUsername, message);
-                    PrivateMessageTextBox.Clear();
-                    RefreshPrivateMessagesButton_Click(sender, e);
-                }, "Error sending private message");
+                    var chatWindow = new PrivateChatWindow(client, senderUsername, recipientUsername);
+                    chatWindow.Closed += (s, args) =>
+                    {
+                        privateChatWindows.Remove(recipientUsername);
+                        recentlyClosedWindows.Add(recipientUsername);
+                        lastMessageCount[recipientUsername] = client.GetPrivateMessages(senderUsername)
+                            .Count(m => m.StartsWith($"Private from {recipientUsername}:") || m.StartsWith($"Private to {recipientUsername}:"));
+                        MessageBox.Show($"Private chat window with {recipientUsername} closed.");
+                    };
+                    privateChatWindows[recipientUsername] = chatWindow;
+                    recentlyClosedWindows.Remove(recipientUsername);
+                    lastMessageCount.Remove(recipientUsername); 
+                    chatWindow.Show();
+                }
+                else
+                {
+                    privateChatWindows[recipientUsername].Activate();
+                }
             }
         }
 
-        private void RefreshPrivateMessagesButton_Click(object sender, RoutedEventArgs e)
+        private void UpdatePrivateMessages()
         {
-            ExecuteWithFaultHandling(() =>
+            if (!string.IsNullOrEmpty(currentRoom))
             {
-                var username = UsernameTextBox.Text;
-                List<string> privateMessages = client.GetPrivateMessages(username);
-                PrivateMessagesListBox.ItemsSource = privateMessages;
-                if (privateMessages.Count > 0)
+                ExecuteWithFaultHandling(() =>
                 {
-                    PrivateMessagesListBox.ScrollIntoView(PrivateMessagesListBox.Items[PrivateMessagesListBox.Items.Count - 1]);
-                }
-            }, "Error refreshing private messages");
+                    var username = UsernameTextBox.Text;
+                    var allMessages = client.GetPrivateMessages(username);
+                    foreach (var recipient in privateChatWindows.Keys.ToList())
+                    {
+                        if (privateChatWindows[recipient].IsLoaded)
+                        {
+                            privateChatWindows[recipient].UpdateMessages();
+                            lastMessageCount[recipient] = allMessages
+                                .Count(m => m.StartsWith($"Private from {recipient}:") || m.StartsWith($"Private to {recipient}:"));
+                        }
+                        else
+                        {
+                            privateChatWindows.Remove(recipient);
+                            recentlyClosedWindows.Add(recipient);
+                            lastMessageCount[recipient] = allMessages
+                                .Count(m => m.StartsWith($"Private from {recipient}:") || m.StartsWith($"Private to {recipient}:"));
+                        }
+                    }
+                    var senders = allMessages
+                        .Where(m => m.StartsWith("Private from"))
+                        .Select(m => m.Split(':')[0].Replace("Private from ", "").Trim())
+                        .Distinct()
+                        .Where(s => s != username && !privateChatWindows.ContainsKey(s));
+                    foreach (var sender in senders)
+                    {
+                        var players = client.GetPlayersInRoom(currentRoom);
+                        if (players.Any(p => p.Username == sender))
+                        {
+                            var messageCount = allMessages
+                                .Count(m => m.StartsWith($"Private from {sender}:") || m.StartsWith($"Private to {sender}:"));
+                            if (!recentlyClosedWindows.Contains(sender) ||
+                                (lastMessageCount.ContainsKey(sender) && messageCount > lastMessageCount[sender]))
+                            {
+                                if (!privateChatWindows.ContainsKey(sender))
+                                {
+                                    var chatWindow = new PrivateChatWindow(client, username, sender);
+                                    chatWindow.Closed += (s, args) =>
+                                    {
+                                        privateChatWindows.Remove(sender);
+                                        recentlyClosedWindows.Add(sender);
+                                        lastMessageCount[sender] = allMessages
+                                            .Count(m => m.StartsWith($"Private from {sender}:") || m.StartsWith($"Private to {sender}:"));
+                                        MessageBox.Show($"Private chat window with {sender} closed.");
+                                    };
+                                    privateChatWindows[sender] = chatWindow;
+                                    lastMessageCount[sender] = messageCount; 
+                                    chatWindow.Show();
+                                }
+                            }
+                        }
+                    }
+                }, "Error refreshing private messages");
+            }
         }
 
         private void refreshPRoom_Click(object sender, RoutedEventArgs e)
@@ -337,7 +432,7 @@ namespace Client
             if (!string.IsNullOrEmpty(currentRoom))
             {
                 LoadPlayersInRoom(currentRoom);
-                RefreshFilesButton_Click(sender, e);
+                UpdateSharedFiles();
             }
         }
 
@@ -355,7 +450,7 @@ namespace Client
                     {
                         var fileData = File.ReadAllBytes(dialog.FileName);
                         client.UploadFile(currentRoom, UsernameTextBox.Text, fileData, dialog.SafeFileName);
-                        RefreshFilesButton_Click(sender, e);
+                        UpdateSharedFiles();
                         MessageBox.Show($"File {dialog.SafeFileName} shared successfully");
                     }, "Error sharing file");
                 }
@@ -366,14 +461,13 @@ namespace Client
             }
         }
 
-        private void RefreshFilesButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateSharedFiles()
         {
             if (!string.IsNullOrEmpty(currentRoom))
             {
                 ExecuteWithFaultHandling(() =>
                 {
-                    var fileNames = client.GetFileNames(currentRoom);
-                    SharedFilesListBox.ItemsSource = fileNames;
+                    UpdateUnifiedChat();
                 }, "Error refreshing files");
             }
         }
@@ -406,5 +500,29 @@ namespace Client
                 }, "Error downloading file");
             }
         }
+
+        private void UpdateUnifiedChat()
+        {
+            if (!string.IsNullOrEmpty(currentRoom))
+            {
+                var messages = client.GetMessages(currentRoom);
+                var fileNames = client.GetFileNames(currentRoom);
+                var chatItems = new List<ChatItem>();
+                chatItems.AddRange(messages.Select(m => new ChatItem { Type = "Message", Content = m }));
+                chatItems.AddRange(fileNames.Select(f => new ChatItem { Type = "File", Content = $"File shared: {f}", FileName = f }));
+                ChatListBox.ItemsSource = chatItems;
+                if (chatItems.Count > 0)
+                {
+                    ChatListBox.ScrollIntoView(chatItems[chatItems.Count - 1]);
+                }
+            }
+        }
+    }
+
+    public class ChatItem
+    {
+        public string Type { get; set; }
+        public string Content { get; set; }
+        public string FileName { get; set; }
     }
 }
