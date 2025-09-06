@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Home\source\repos\Bihela\MKXLobby\Client\obj\Debug\
+C:\Users\Home\source\repos\Bihela\MKXLobby\Client\obj\Release\
 Client
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Home\source\repos\Bihela\MKXLobby\Client\App.xaml
 1219584333
 
 51579654133
-171831584119
+172061480319
 MainWindow.xaml;
 
-False
+True
 
