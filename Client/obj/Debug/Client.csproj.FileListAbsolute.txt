@@ -104,3 +104,28 @@ C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Client\o
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Client\obj\Debug\Client.csproj.Up2Date
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Client\obj\Debug\Client.exe
 C:\Users\Home\Documents\Curtin\DS\navida\DistributedAssignment_21557859\Client\obj\Debug\Client.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Client.exe.config
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Client.exe
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Client.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\DataBase.dll
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Server.exe
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\DataBase.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Server.pdb
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\bin\Debug\Server.exe.config
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.exe.config
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\PrivateChatWindow.baml
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\PrivateChatWindow.g.cs
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\MainWindow.g.cs
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\App.g.cs
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client_MarkupCompile.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client_MarkupCompile.lref
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\MainWindow.baml
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.g.resources
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.csproj.GenerateResource.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.csproj.Up2Date
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.exe
+C:\Users\pc\Desktop\3rd Year Sem1\DC\Assignment 1\DC_ASSIGNMENT_21806852\Client\obj\Debug\Client.pdb

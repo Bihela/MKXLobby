@@ -1,78 +1,92 @@
 ﻿<Window x:Class="Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="571" Width="800">
-    <Viewbox Stretch="Fill" Height="600" VerticalAlignment="Top">
-        <Grid Height="600.04" Width="800">
-            <!-- Username Input and Lobby Controls -->
-            <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Margin="67,58,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Visibility="Visible" />
-            <TextBox x:Name="RoomNameTextBox" HorizontalAlignment="Left" Margin="67,148,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.608,0.67"/>
-            <ListBox x:Name="RoomListBox" HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=5}" AutomationProperties.Name="" Margin="344,70,0,433" Width="122" />
-            <Button x:Name="LoginButn" Content="Log in" HorizontalAlignment="Left" Margin="206,58,0,0" VerticalAlignment="Top" Click="LoginButton_Click" />
-            <Button x:Name="CreateRoomBut" Content="Create room" HorizontalAlignment="Left" Margin="206,147,0,0" VerticalAlignment="Top" Click="CreateRoomButton_Click" />
-            <Label Content="Join rooms" HorizontalAlignment="Right" Margin="0,41,361,0" VerticalAlignment="Top" />
-            <Button x:Name="JoinRoomButton" Content="Join" HorizontalAlignment="Left" Margin="437,179,0,0" VerticalAlignment="Top" Click="JoinRoomButton_Click" Width="29" />
-            <Button x:Name="refreshList" Content="Refresh" HorizontalAlignment="Left" Margin="344,179,0,0" VerticalAlignment="Top" Click="refreshList_Click" Width="46" />
-            <Button x:Name="logOutbtn" Content="Log out" HorizontalAlignment="Left" Margin="206,90,0,0" VerticalAlignment="Top" Click="LogoutButton_Click" />
-            <Button x:Name="LeaveRoBtn" Content="Leave" HorizontalAlignment="Left" Margin="696,179,0,0" VerticalAlignment="Top" Click="LeaveRoBtn_Click" Width="37"/>
-            <ListBox x:Name="PlayerListBox" HorizontalAlignment="Left" Height="97" VerticalAlignment="Top" Margin="555,70,0,0" Width="178"/>
-            <Button x:Name="refreshPRoom" Content="Refresh" HorizontalAlignment="Left" Margin="555,179,0,0" VerticalAlignment="Top" Click="refreshPRoom_Click" Width="46" RenderTransformOrigin="0.261,0.653" />
-            <Label Content="Your Room" HorizontalAlignment="Right" Margin="0,40,122,0" VerticalAlignment="Top" />
+        Title="Chat Lobby" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Window.Resources>
+        <!-- DataTemplates for unified chat -->
+        <DataTemplate x:Key="MessageTemplate">
+            <TextBlock Text="{Binding Content}" />
+        </DataTemplate>
+        <DataTemplate x:Key="FileTemplate">
+            <TextBlock>
+                <Hyperlink NavigateUri="{Binding FileName}" RequestNavigate="Hyperlink_RequestNavigate">
+                    <TextBlock Text="{Binding Content}" />
+                </Hyperlink>
+            </TextBlock>
+        </DataTemplate>
+        <!-- DataTemplateSelector for chat items -->
+        <local:ChatItemTemplateSelector x:Key="ChatItemTemplateSelector" MessageTemplate="{StaticResource MessageTemplate}" FileTemplate="{StaticResource FileTemplate}" />
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <!-- ScrollViewer for Room Messages and Shared Files -->
-            <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" Margin="36,260,0,0" Width="314" Height="340" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <!-- Room Messages Section -->
-                    <Label Content="Room Messages" Width="98"/>
-                    <ListBox x:Name="RoomMessagesListBox" Height="155" Width="234" RenderTransformOrigin="0.5,0.5">
-                        <ListBox.RenderTransform>
-                            <TransformGroup>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </ListBox.RenderTransform>
-                    </ListBox>
-                    <TextBox x:Name="RoomMessageTextBox" Width="234" Text="Type a room message" Margin="0,5,0,0"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Button x:Name="RefreshRoomMessagesButton" Content="Refresh" Width="46" Click="RefreshRoomMessagesButton_Click" RenderTransformOrigin="0.109,0.854"/>
-                        <Button x:Name="SendRoomMessageButton" Content="Send Message" Width="87" Click="SendRoomMessageButton_Click" Margin="147,0,0,0"/>
-                    </StackPanel>
+        <!-- Lobby / Rooms Section -->
+        <GroupBox Header="Lobby" Grid.Row="0" Grid.Column="0" Margin="5">
+            <StackPanel Margin="10">
+                <TextBox x:Name="UsernameTextBox" Text="Enter Username" Margin="0,5"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <Button x:Name="LoginButn" Content="Log in" Width="80" Margin="0,0,5,0" Click="LoginButton_Click"/>
+                    <Button x:Name="logOutbtn" Content="Log out" Width="80" Click="LogoutButton_Click"/>
+                </StackPanel>
+                <TextBox x:Name="RoomNameTextBox" Text="Room Name" Margin="0,5"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <Button x:Name="CreateRoomBut" Content="Create Room" Width="100" Margin="0,0,5,0" Click="CreateRoomButton_Click"/>
+                </StackPanel>
+                <Label Content="Available Rooms" FontWeight="Bold"/>
+                <ListBox x:Name="RoomListBox" Height="120" Margin="0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="refreshList" Content="Refresh" Width="70" Margin="0,0,5,0" Click="refreshList_Click"/>
+                    <Button x:Name="JoinRoomButton" Content="Join" Width="70" Click="JoinRoomButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
 
-                    <!-- File Sharing Section -->
-                    <Label Content="Shared Files" Width="98" Margin="0,10,0,0"/>
-                    <ListBox x:Name="SharedFilesListBox" Height="100" Width="234" Margin="0,5,0,0">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <Hyperlink NavigateUri="{Binding}" RequestNavigate="Hyperlink_RequestNavigate">
-                                        <TextBlock Text="{Binding}"/>
-                                    </Hyperlink>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Button x:Name="ShareFileButton" Content="Share File" Width="75" Click="ShareFileButton_Click"/>
-                        <Button x:Name="RefreshFilesButton" Content="Refresh Files" Width="75" Click="RefreshFilesButton_Click" Margin="151,0,0,0"/>
+        <!-- Players Section -->
+        <GroupBox Header="Players in Room" Grid.Row="0" Grid.Column="1" Margin="5">
+            <StackPanel Margin="10">
+                <ListBox x:Name="PlayerListBox" Height="120"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <Button x:Name="refreshPRoom" Content="Refresh" Width="70" Margin="0,0,5,0" Click="refreshPRoom_Click"/>
+                    <Button x:Name="LeaveRoBtn" Content="Leave" Width="70" Click="LeaveRoBtn_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Unified Chat (Messages & Files) -->
+        <GroupBox Header="Room Chat" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label Content="Chat" FontWeight="Bold"/>
+                    <ListBox x:Name="ChatListBox" Height="150" Margin="0,5" ItemTemplateSelector="{StaticResource ChatItemTemplateSelector}" />
+                    <TextBox x:Name="RoomMessageTextBox" Text="Type a room message..." Margin="0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SendRoomMessageButton" Content="Send" Width="80" Margin="0,0,5,0" Click="SendRoomMessageButton_Click"/>
+                        <Button x:Name="ShareFileButton" Content="Share File" Width="80" Click="ShareFileButton_Click"/>
                     </StackPanel>
                 </StackPanel>
-            </ScrollViewer>
+            </Grid>
+        </GroupBox>
 
-            <!-- Private Messages Section -->
-            <ListBox x:Name="PrivateMessagesListBox" HorizontalAlignment="Left" Height="155" VerticalAlignment="Top" Margin="499,291,0,0" Width="234"/>
-            <TextBox x:Name="PrivateMessageTextBox" HorizontalAlignment="Left" Margin="499,457,0,108" Width="234" Text="Type a private message"/>
-            <ComboBox x:Name="PrivateMessageRecipientComboBox" HorizontalAlignment="Left" Margin="378,413,0,154" Width="106" />
-            <Button x:Name="SendPrivateMessageButton" Content="Send Message" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="648,504,0,0" Width="85" Click="SendPrivateMessageButton_Click"/>
-            <Button x:Name="RefreshPrivateMessagesButton" Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="499,504,0,0" Width="47" Click="RefreshPrivateMessagesButton_Click"/>
-            <Label Content="Private Messages" HorizontalAlignment="Left" Margin="562,260,0,0" VerticalAlignment="Top" Width="108"/>
-            <Label Content="Select Username" HorizontalAlignment="Left" Margin="382,382,0,0" VerticalAlignment="Top" Width="98"/>
-
-            <Rectangle HorizontalAlignment="Center" Height="2" Margin="0,239,0,0" Stroke="Black" VerticalAlignment="Top" Width="666"/>
-        </Grid>
-    </Viewbox>
+        <!-- Private Messaging (Recipient Selector Only) -->
+        <GroupBox Header="Private Messages" Grid.Row="1" Grid.Column="2" Margin="5">
+            <StackPanel Margin="10">
+                <ComboBox x:Name="PrivateMessageRecipientComboBox" Margin="0,5" Width="150"/>
+                <Button x:Name="SendPrivateMessageButton" Content="Open Chat" Width="80" Margin="0,5" Click="SendPrivateMessageButton_Click"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
 </Window>
