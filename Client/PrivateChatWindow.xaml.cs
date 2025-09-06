@@ -1,5 +1,6 @@
 ﻿using Server;
 using System;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,21 +14,74 @@ namespace Client
 
         public PrivateChatWindow(ILobbyService client, string senderUsername, string recipientUsername)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error initializing PrivateChatWindow: {ex.Message}");
+                return;
+            }
             _client = client;
             _senderUsername = senderUsername;
             RecipientUsername = recipientUsername;
-            Title = $"Private Chat with {RecipientUsername}"; // Set window title
-            UpdateMessages(); // Initial load
+            Title = $"Private Chat with {RecipientUsername}";
+            UpdateMessages();
+            Closing += PrivateChatWindow_Closing;
         }
 
-        // Update messages for this recipient
-        public void UpdateMessages()
+        private void PrivateChatWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during window closing: {ex.Message}");
+            }
+        }
+
+        private T ExecuteWithFaultHandling<T>(Func<T> action, string errorMessage)
+        {
+            try
+            {
+                return action();
+            }
+            catch (CommunicationException ex)
+            {
+                MessageBox.Show($"{errorMessage}: {ex.Message}");
+                return default(T);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{errorMessage}: {ex.Message}");
+                return default(T);
+            }
+        }
+
+        private void ExecuteWithFaultHandling(Action action, string errorMessage)
+        {
+            try
+            {
+                action();
+            }
+            catch (CommunicationException ex)
+            {
+                MessageBox.Show($"{errorMessage}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{errorMessage}: {ex.Message}");
+            }
+        }
+
+        public void UpdateMessages()
+        {
+            ExecuteWithFaultHandling(() =>
+            {
                 var allMessages = _client.GetPrivateMessages(_senderUsername);
-                // Filter messages for this specific recipient
                 var filteredMessages = allMessages.FindAll(m =>
                     m.StartsWith($"Private from {RecipientUsername}:") ||
                     m.StartsWith($"Private to {RecipientUsername}:"));
@@ -36,11 +90,7 @@ namespace Client
                 {
                     PrivateMessagesListBox.ScrollIntoView(filteredMessages[filteredMessages.Count - 1]);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating private messages: {ex.Message}");
-            }
+            }, "Error updating private messages");
         }
 
         private void SendPrivateMessageButton_Click(object sender, RoutedEventArgs e)
@@ -48,16 +98,12 @@ namespace Client
             var message = PrivateMessageTextBox.Text;
             if (!string.IsNullOrEmpty(message) && message != "Type a message...")
             {
-                try
+                ExecuteWithFaultHandling(() =>
                 {
                     _client.SendPrivateMessage(_senderUsername, RecipientUsername, message);
                     PrivateMessageTextBox.Clear();
                     UpdateMessages();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error sending private message: {ex.Message}");
-                }
+                }, "Error sending private message");
             }
         }
     }
